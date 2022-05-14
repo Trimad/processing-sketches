@@ -1,0 +1,27 @@
+ffmpeg -f image2 -r 60 -i line-%06d.png -vcodec libx264 -profile:v high444 -refs 16 -crf 0 -preset ultrafast input.mp4
+
+ffmpeg -i nosound.mp4 -c:v libvpx -b:v 3M output.webm
+
+ffmpeg -i nosound.mp4 -c:v libvpx-vp9 -lossless 1 output.webm
+
+
+ffmpeg -threads 7 -f image2 -framerate 60 -i gif-%3d.png -c:v libvpx -b:v 4M output3M.webm
+
+ffmpeg -threads 7 -i "Extraordinary Claims 02.mp4" -c:v libvpx -b:v 1M output1M.webm
+
+---Epic Guide---
+https://rentry.co/8o2nn
+
+ffmpeg -i "Extraordinary Claims 02.mp4" -c:v libvpx -threads 6 -quality good -cpu-used 0 -lag-in-frames 16 -auto-alt-ref 1 -qcomp 1 -b:v 228K -an -sn -y -f webm -pass 1 NUL
+
+ffmpeg -i "Extraordinary Claims 02.mp4" -c:v libvpx -threads 6 -quality good -cpu-used 0 -lag-in-frames 16 -auto-alt-ref 1 -qcomp 1 -b:v 228K -an -sn -y -f webm -pass 2 output.webm
+
+
+//Single-pass 360P
+ffmpeg -i "Extraordinary Claims 01.mp4" -vf "scale=-1:360" -threads 8 -c:v libvpx-vp9 -crf 10 -c:a libvorbis 360P.webm
+
+//Single-pass no audio
+ffmpeg -i "nosound.mp4" -threads 8 -c:v libvpx-vp9 -crf 10 -an 360P.webm
+
+//Single-pass 480P
+ffmpeg -i "Extraordinary Claims 01.mp4" -vf "scale=-1:480" -threads 8 -quality good 480P.webm
